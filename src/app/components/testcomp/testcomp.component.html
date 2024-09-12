@@ -1,0 +1,28 @@
+<table>
+    <thead>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Color</th>
+        <th>Price</th>
+    </thead>
+    <tbody>
+        <tr *ngFor="let device of deviceList">
+            <div *ngIf="device.data !== null &&  device.data.hasOwnProperty('price') || device.data !== null &&  device.data.hasOwnProperty('color')">
+            <td>{{device.id}}</td>
+            <td>{{device.name}}</td>
+            <td>{{device.data.color}}</td>
+            <td>{{device.data.price}}</td>
+            <td><button>View</button></td>
+            <td><button>Delete</button></td>
+        </div>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td></td>
+            <td><input placeholder="Name" type="text"></td>
+            <td><input placeholder="Color" type="color"></td>
+            <td><input placeholder="Price" type="text"></td>
+        </tr>
+    </tfoot>
+</table>
