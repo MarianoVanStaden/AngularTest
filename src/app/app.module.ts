@@ -3,14 +3,14 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { TestcompComponent } from './components/testcomp/testcomp.component';
+import { Testcomp } from './components/testcomp/testcomp';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TestcompComponent
+    Testcomp
   ],
   imports: [
     BrowserModule,
