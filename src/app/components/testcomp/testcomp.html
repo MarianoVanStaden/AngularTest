@@ -1,58 +1,67 @@
-
-
-<h1>Trabajo Práctico Entregable - Desarrollo Web</h1>
-<table style="border: 1px solid">
+<table>
   <thead>
     <tr>
-      <th>Id</th>
+      <th>ID</th>
       <th>Name</th>
       <th>Capacity</th>
       <th>Screen Size</th>
       <th>Generation</th>
       <th>Price</th>
-      <th colspan="2"></th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let element of elements">
       <td>{{ element.id }}</td>
       <td>{{ element.name }}</td>
-      <td>{{ element.data.capacity || '-' }}</td>
-      <td>{{ element.data.screenSize || '-' }}</td>
-      <td>{{ element.data.generation || '-' }}</td>
-      <td>{{ element.data.price || '-' }}</td>
-      <td><button (click)="viewElement(element)">View</button></td>
-      <td><button (click)="deleteElement(element.id)">Delete</button></td>
+
+      <!-- Verifica si data existe antes de mostrar sus propiedades -->
+      <td *ngIf="element.data?.capacity">{{ element.data.capacity }}</td>
+      <td *ngIf="element.data?.screenSize">{{ element.data.screenSize }}</td>
+      <td *ngIf="element.data?.generation">{{ element.data.generation }}</td>
+      <td *ngIf="element.data?.price">{{ element.data.price }}</td>
+
+      <!-- Muestra celdas vacías si no hay datos disponibles -->
+      <td *ngIf="!element.data?.capacity">N/A</td>
+      <td *ngIf="!element.data?.screenSize">N/A</td>
+      <td *ngIf="!element.data?.generation">N/A</td>
+      <td *ngIf="!element.data?.price">N/A</td>
+
+      <td>
+        <button (click)="viewElement(element)">View</button>
+        <button (click)="deleteElement(element.id)">Delete</button>
+      </td>
+    </tr>
+    <!-- Fila para agregar nuevos elementos -->
+    <tr>
+      <td>New</td>
+      <td><input [(ngModel)]="newElement.name" placeholder="Name"></td>
+      <td><input [(ngModel)]="newElement.data.capacity" placeholder="Capacity"></td>
+      <td><input [(ngModel)]="newElement.data.screenSize" placeholder="Screen Size"></td>
+      <td><input [(ngModel)]="newElement.data.generation" placeholder="Generation"></td>
+      <td><input [(ngModel)]="newElement.data.price" placeholder="Price"></td>
+      <td>
+        <button (click)="saveElement()">Add</button>
+      </td>
     </tr>
   </tbody>
-  <tfoot>
-    <tr>
-      <td></td>
-      <td><input [(ngModel)]="newElement.name" placeholder="Ingrese el modelo"></td>
-      <td><input [(ngModel)]="newElement.data.capacity" placeholder="Ingrese la capacidad"></td>
-      <td><input [(ngModel)]="newElement.data.screenSize" placeholder="Ingrese el tamaño de pantalla"></td>
-      <td><input [(ngModel)]="newElement.data.generation" placeholder="Ingrese la generación"></td>
-      <td><input [(ngModel)]="newElement.data.price" placeholder="Ingrese el precio"></td>
-      <td colspan="2"><button (click)="saveElement()">Agregar</button></td>
-    </tr>
-  </tfoot>
 </table>
 
-<!-- Pop-up for updating -->
+<!-- Popup para editar elementos -->
 <div *ngIf="isPopupVisible" class="popup">
-  <h3>Actualizar registro</h3>
-  <label>Id:</label>
-  <input [(ngModel)]="selectedElement.id" readonly>
-  <label>Modelo:</label>
-  <input [(ngModel)]="selectedElement.name">
-  <label>Capacidad:</label>
-  <input [(ngModel)]="selectedElement.data.capacity">
-  <label>Tamaño de Pantalla:</label>
-  <input [(ngModel)]="selectedElement.data.screenSize">
-  <label>Generación:</label>
-  <input [(ngModel)]="selectedElement.data.generation">
-  <label>Precio:</label>
-  <input [(ngModel)]="selectedElement.data.price">
-  <button (click)="updateElement()">Actualizar</button>
-  <button (click)="closePopup()">Cerrar</button>
+  <h3>Edit {{ selectedElement.name }}</h3>
+  <form (submit)="updateElement()">
+    <input [(ngModel)]="selectedElement.name" placeholder="Name" required>
+    
+    <!-- Verifica si el objeto data existe antes de editarlo -->
+    <div *ngIf="selectedElement.data">
+      <input [(ngModel)]="selectedElement.data.capacity" placeholder="Capacity">
+      <input [(ngModel)]="selectedElement.data.screenSize" placeholder="Screen Size">
+      <input [(ngModel)]="selectedElement.data.generation" placeholder="Generation">
+      <input [(ngModel)]="selectedElement.data.price" placeholder="Price">
+    </div>
+
+    <button type="submit">Save</button>
+    <button (click)="closePopup()">Cancel</button>
+  </form>
 </div>
