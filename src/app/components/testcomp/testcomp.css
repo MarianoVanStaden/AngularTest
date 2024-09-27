@@ -1,0 +1,124 @@
+/* Estilo minimalista con colores neutros */
+
+h1 {
+    text-align: center;
+    color: #000
+}
+
+h3 {
+    text-align: center;
+    color: #000
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+table {
+    width: 100%;
+    max-width: 1200px; /* Opcional: establece un ancho máximo si no quieres que sea demasiado grande */
+    margin: 20px auto; /* Esto centrará la tabla */
+    border-collapse: collapse;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    width: auto; /* Ajusta dinámicamente el ancho de cada columna */
+}
+
+th {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    background-color: #007bff;
+    color: #fff;
+    width: 100%; /* Asegura que el encabezado cubra todo el ancho de la tabla */
+}
+
+
+tfoot input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+tfoot button {
+    padding: 10px 20px;
+    background-color: #28a745;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+tfoot button:hover {
+    background-color: #218838;
+}
+
+.autor {
+    text-align: right;
+    padding: 10px;
+    font-size: 14px;
+    font-style: italic;
+    color: #666; 
+}
+
+.autor a {
+    text-decoration: none; 
+    color: #333; 
+}
+
+#popUp {
+    display: none;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#popUp h3 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+#popUp table {
+    width: 100%;
+}
+
+#popUp input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin: 6px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#popUp button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+#popUp button:hover {
+    background-color: #0069d9;
+}
+
+#labelIdUpdate {
+    background-color: rgba(0, 0, 0, 0.5); 
+}

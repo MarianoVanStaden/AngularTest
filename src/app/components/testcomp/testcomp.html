@@ -9,6 +9,7 @@
       <th>Generation</th>
       <th>Price</th>
       <th>Actions</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -22,7 +23,6 @@
       <td>{{ element.data?.screenSize || '-' }}</td>
       <td>{{ element.data?.generation || '-' }}</td>
       <td>{{ element.data?.price || '-' }}</td>
-
       <td><button (click)="viewElement(element)">View</button></td>
       <td><button (click)="deleteElement(element.id)">Delete</button></td>
     </tr>
