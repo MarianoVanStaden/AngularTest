@@ -1,3 +1,4 @@
+<h1>Elementos</h1>
 <table>
   <thead>
     <tr>
@@ -39,3 +40,42 @@
     </tr>
   </tbody>
 </table>
+
+<!-- Popup Modal -->
+<div *ngIf="isPopupVisible" id="popUp">
+  <h3>Detalles del Elemento</h3>
+  <table>
+    <tr>
+      <td>ID:</td>
+      <td>{{ selectedElement?.id }}</td>
+    </tr>
+    <tr>
+      <td>Name:</td>
+      <td><input [(ngModel)]="selectedElement.name"></td>
+    </tr>
+    <tr>
+      <td>Capacity:</td>
+      <td><input [(ngModel)]="selectedElement.data.capacity"></td>
+    </tr>
+    <tr>
+      <td>Color:</td>
+      <td><input [(ngModel)]="selectedElement.data.color"></td>
+    </tr>
+    <tr>
+      <td>Screen Size:</td>
+      <td><input [(ngModel)]="selectedElement.data.screenSize"></td>
+    </tr>
+    <tr>
+      <td>Generation:</td>
+      <td><input [(ngModel)]="selectedElement.data.generation"></td>
+    </tr>
+    <tr>
+      <td>Price:</td>
+      <td><input type="number" [(ngModel)]="selectedElement.data.price"></td>
+    </tr>
+  </table>
+  <div class="modal-buttons">
+    <button  (click)="closePopup()">Close</button>
+    <button  (click)="updateElement()">Update</button>
+  </div>
+</div>

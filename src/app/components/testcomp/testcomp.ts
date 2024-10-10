@@ -11,7 +11,6 @@ export class Testcomp implements OnInit {
   elements: any[] = [];
   newElement: any = { name: '', data: { capacity: '', color: '', screenSize: '', generation: '', price: '' } };
   selectedElement: any = null;
-  originalElement: any = null;
   isPopupVisible = false;
 
   constructor(private http: HttpClient) {}
@@ -55,21 +54,13 @@ export class Testcomp implements OnInit {
   }
 
   viewElement(element: any) {
-    // Clona el elemento original para el rollback
-    this.originalElement = JSON.parse(JSON.stringify(element));
-    this.selectedElement = element; // Usa directamente el elemento para data binding
+    this.selectedElement = { ...element }; 
     this.isPopupVisible = true;
   }
 
   closePopup() {
-    // Restaura el elemento original al cerrar el modal
-    if (this.originalElement) {
-      const index = this.elements.findIndex(e => e.id === this.originalElement.id);
-      if (index !== -1) {
-        this.elements[index] = this.originalElement; // Restaura el valor original
-      }
-    }
     this.isPopupVisible = false;
+    this.selectedElement = null; 
   }
 
   updateElement() {
@@ -79,7 +70,7 @@ export class Testcomp implements OnInit {
         if (index !== -1) {
           this.elements[index] = response; // Actualiza el elemento en la lista
         }
-        this.isPopupVisible = false; // Cierra el modal después de actualizar
+        this.closePopup(); // Cierra el modal después de actualizar
       },
       (error) => console.error('Error updating element', error)
     );
