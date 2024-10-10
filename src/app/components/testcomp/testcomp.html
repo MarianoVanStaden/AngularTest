@@ -1,43 +1,36 @@
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-      <th>Capacity</th>
-      <th>Color</th>
-      <th>Screen Size</th>
-      <th>Generation</th>
-      <th>Price</th>
-      <th>Actions</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let element of elements">
-      <td>{{ element.id }}</td>
-      <td>{{ element.name }}</td>
-
-      <!-- Verifica si existen estas propiedades antes de mostrarlas -->
-      <td>{{ element.data?.capacity || '-' }}</td>
-      <td>{{ element.data?.color || '-' }}</td>
-      <td>{{ element.data?.screenSize || '-' }}</td>
-      <td>{{ element.data?.generation || '-' }}</td>
-      <td>{{ element.data?.price || '-' }}</td>
-      <td><button (click)="viewElement(element)">View</button></td>
-      <td><button (click)="deleteElement(element.id)">Delete</button></td>
-    </tr>
-    <!-- Fila para agregar nuevos elementos -->
-    <tr>
-      <td>New</td>
-      <td><input [(ngModel)]="newElement.name" placeholder="Name"></td>
-      <td><input [(ngModel)]="newElement.data.capacity" placeholder="Capacity"></td>
-      <td><input [(ngModel)]="newElement.data.color" placeholder="Color"></td>
-      <td><input [(ngModel)]="newElement.data.screenSize" placeholder="Screen Size"></td>
-      <td><input [(ngModel)]="newElement.data.generation" placeholder="Generation"></td>
-      <td><input [(ngModel)]="newElement.data.price" placeholder="Price"></td>
-      <td>
-        <button (click)="saveElement()">Add</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<!-- Modal -->
+<div id="popUp" *ngIf="isPopupVisible">
+    <h3>Edit Element</h3>
+    <table>
+        <tr>
+            <td><label>ID:</label></td>
+            <td><input [(ngModel)]="selectedElement.id" disabled /></td>
+        </tr>
+        <tr>
+            <td><label>Name:</label></td>
+            <td><input [(ngModel)]="selectedElement.name" /></td>
+        </tr>
+        <tr>
+            <td><label>Capacity:</label></td>
+            <td><input [(ngModel)]="selectedElement.data.capacity" /></td>
+        </tr>
+        <tr>
+            <td><label>Color:</label></td>
+            <td><input [(ngModel)]="selectedElement.data.color" /></td>
+        </tr>
+        <tr>
+            <td><label>Screen Size:</label></td>
+            <td><input [(ngModel)]="selectedElement.data.screenSize" /></td>
+        </tr>
+        <tr>
+            <td><label>Generation:</label></td>
+            <td><input [(ngModel)]="selectedElement.data.generation" /></td>
+        </tr>
+        <tr>
+            <td><label>Price:</label></td>
+            <td><input type="number" [(ngModel)]="selectedElement.data.price" /></td>
+        </tr>
+    </table>
+    <button (click)="updateElement()">Update</button>
+    <button (click)="closePopup()">Close</button>
+</div>

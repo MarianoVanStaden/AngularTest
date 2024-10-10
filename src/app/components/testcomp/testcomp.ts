@@ -10,7 +10,8 @@ export class Testcomp implements OnInit {
   url = 'https://api.restful-api.dev/objects';
   elements: any[] = [];
   newElement: any = { name: '', data: { capacity: '', screenSize: '', generation: '', price: '' } };
-  selectedElement: any = {};
+  selectedElement: any = null;
+  originalElement: any = null; // Guarda el elemento original para el rollback
   isPopupVisible = false;
 
   constructor(private http: HttpClient) {}
@@ -33,13 +34,18 @@ export class Testcomp implements OnInit {
   }
 
   saveElement() {
-    this.http.post<any>(this.url, this.newElement).subscribe(
-      (response) => {
-        this.elements.push(response);
-        this.resetForm();
-      },
-      (error) => console.error('Error adding element', error)
-    );
+    // Validar campos antes de guardar
+    if (this.isNewElementValid()) {
+      this.http.post<any>(this.url, this.newElement).subscribe(
+        (response) => {
+          this.elements.push(response);
+          this.resetForm();
+        },
+        (error) => console.error('Error adding element', error)
+      );
+    } else {
+      alert('Por favor completa todos los campos requeridos y asegúrate de que el precio sea un número.');
+    }
   }
 
   deleteElement(id: string) {
@@ -50,8 +56,17 @@ export class Testcomp implements OnInit {
   }
 
   viewElement(element: any) {
-    this.selectedElement = { ...element };
+    this.originalElement = JSON.parse(JSON.stringify(element)); // Clona el elemento
+    this.selectedElement = { ...element }; // Clona para la edición
     this.isPopupVisible = true;
+  }
+
+  closePopup() {
+    // Restaurar los cambios del elemento original al cerrar el modal
+    if (this.originalElement) {
+      Object.assign(this.selectedElement, this.originalElement);
+    }
+    this.isPopupVisible = false;
   }
 
   updateElement() {
@@ -71,7 +86,9 @@ export class Testcomp implements OnInit {
     this.newElement = { name: '', data: { capacity: '', screenSize: '', generation: '', price: '' } };
   }
 
-  closePopup() {
-    this.isPopupVisible = false;
+  isNewElementValid() {
+    const { name, data } = this.newElement;
+    return name && data.capacity && data.color && data.screenSize && data.generation && !isNaN(data.price) && data.price !== '';
   }
 }
+

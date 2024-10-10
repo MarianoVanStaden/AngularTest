@@ -2,12 +2,12 @@
 
 h1 {
     text-align: center;
-    color: #000
+    color: #000;
 }
 
 h3 {
     text-align: center;
-    color: #000
+    color: #000;
 }
 
 body {
@@ -19,19 +19,18 @@ body {
 
 table {
     width: 100%;
-    max-width: 1200px; /* Opcional: establece un ancho máximo si no quieres que sea demasiado grande */
-    margin: 20px auto; /* Esto centrará la tabla */
+    max-width: 1200px;
+    margin: 20px auto;
     border-collapse: collapse;
     background-color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-
 td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-    width: auto; /* Ajusta dinámicamente el ancho de cada columna */
+    width: auto;
 }
 
 th {
@@ -40,9 +39,8 @@ th {
     border-bottom: 1px solid #ddd;
     background-color: #007bff;
     color: #fff;
-    width: 100%; /* Asegura que el encabezado cubra todo el ancho de la tabla */
+    width: 100%;
 }
-
 
 tfoot input {
     width: 100%;
@@ -50,7 +48,6 @@ tfoot input {
     box-sizing: border-box;
     border: 1px solid #ccc;
     border-radius: 4px;
-    font-size: 14px;
 }
 
 tfoot button {
@@ -79,13 +76,19 @@ tfoot button:hover {
     color: #333; 
 }
 
+/* Estilos para el modal */
 #popUp {
-    display: none;
+    display: block;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
     max-width: 400px;
-    margin: 0 auto;
+    width: 90%;
+    z-index: 1000; /* Asegura que el modal esté en la parte superior */
 }
 
 #popUp h3 {
@@ -122,3 +125,9 @@ tfoot button:hover {
 #labelIdUpdate {
     background-color: rgba(0, 0, 0, 0.5); 
 }
+
+/* Estilos para el fondo del modal */
+body.modal-open {
+    overflow: hidden; /* Evita el desplazamiento de la página de fondo */
+}
+
