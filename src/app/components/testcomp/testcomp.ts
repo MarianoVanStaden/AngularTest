@@ -12,6 +12,7 @@ export class Testcomp implements OnInit {
   newElement: any = { name: '', data: { capacity: '', color: '', screenSize: '', generation: '', price: '' } };
   selectedElement: any = null;
   isPopupVisible = false;
+  deleteEnabled = false; // Controla si los botones de "Delete" están habilitados
 
   constructor(private http: HttpClient) {}
 
@@ -24,6 +25,7 @@ export class Testcomp implements OnInit {
       (response) => {
         if (Array.isArray(response)) {
           this.elements = response;
+          this.disableDeleteButtons(); // Deshabilitar botones después de cargar los elementos
         } else {
           console.error('Response is not an array');
         }
@@ -38,6 +40,7 @@ export class Testcomp implements OnInit {
         (response) => {
           this.elements.push(response);
           this.resetForm();
+          this.deleteEnabled = true; // Habilitar el botón de "Delete" después de agregar un elemento
         },
         (error) => console.error('Error adding element', error)
       );
@@ -71,6 +74,7 @@ export class Testcomp implements OnInit {
           this.elements[index] = response; // Actualiza el elemento en la lista
         }
         this.closePopup(); // Cierra el modal después de actualizar
+        this.deleteEnabled = true; // Habilitar botones de "Delete" después de la actualización
       },
       (error) => console.error('Error updating element', error)
     );
@@ -83,5 +87,10 @@ export class Testcomp implements OnInit {
   isNewElementValid() {
     const { name, data } = this.newElement;
     return name && data.capacity && data.color && data.screenSize && data.generation && !isNaN(data.price) && data.price !== '';
+  }
+
+  disableDeleteButtons() {
+    // Lógica que deshabilita los botones de "Delete" al inicio
+    this.deleteEnabled = false;
   }
 }

@@ -1,206 +1,203 @@
-/* Estilo minimalista con colores neutros */
-
 h1 {
-    text-align: center;
-    color: #000;
+  text-align: center;
+  color: #000;
 }
 
 h3 {
-    text-align: center;
-    color: #000;
+  text-align: center;
+  color: #000;
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background-color: #f8f9fa;
-    margin: 0;
-    padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f8f9fa;
+  margin: 0;
+  padding: 0;
 }
 
 table {
-    width: 100%;
-    max-width: 1200px;
-    margin: 20px auto;
-    border-collapse: collapse;
-    background-color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 1200px;
+  margin: 20px auto;
+  border-collapse: collapse;
+  background-color: #fff;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 td {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    width: auto;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  width: auto;
 }
 
 th {
-    padding: 10px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-    background-color: #007bff;
-    color: #fff;
-    width: 100%;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  background-color: #007bff;
+  color: #fff;
+  width: 100%;
 }
 
 tfoot input {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }
 
 tfoot button {
-    padding: 10px 20px;
-    background-color: #28a745;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
+  padding: 10px 20px;
+  background-color: #28a745;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 tfoot button:hover {
-    background-color: #218838;
+  background-color: #218838;
 }
 
 .autor {
-    text-align: right;
-    padding: 10px;
-    font-size: 14px;
-    font-style: italic;
-    color: #666; 
+  text-align: right;
+  padding: 10px;
+  font-size: 14px;
+  font-style: italic;
+  color: #666; 
 }
 
 .autor a {
-    text-decoration: none; 
-    color: #333; 
+  text-decoration: none; 
+  color: #333; 
 }
 
 /* Estilos para el modal */
 #popUp {
-    display: block;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    max-width: 400px;
-    width: 90%;
-    z-index: 1000; /* Asegura que el modal esté en la parte superior */
+  display: block;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  max-width: 400px;
+  width: 90%;
+  z-index: 1000; /* Asegura que el modal esté en la parte superior */
 }
 
 #popUp h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
 
 #popUp table {
-    width: 100%;
+  width: 100%;
 }
 
 #popUp input {
-    width: calc(100% - 20px);
-    padding: 8px;
-    margin: 6px 0;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
+  width: calc(100% - 20px);
+  padding: 8px;
+  margin: 6px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
 }
 
 #popUp button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 4px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  border: none;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
 }
 
 #popUp button:hover {
-    background-color: #0069d9;
+  background-color: #0069d9;
 }
 
 #labelIdUpdate {
-    background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5); 
 }
 
 /* Estilos para centrar el modal y los botones */
 .modal-container {
-    width: 50%;
-    margin: 0 auto;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .modal-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 20px;
-  }
-  
-  /* Estilos de botones */
-  button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .btn-primary {
-    background-color: #007bff;
-    color: white;
-  }
-  
-  .btn-secondary {
-    background-color: #6c757d;
-    color: white;
-  }
-  
-  /* Estilos para botones de la pantalla principal */
-  .table-actions button {
-    padding: 10px 15px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    margin: 0 5px;
-  }
-  
-  .table-actions .btn-view {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  .table-actions .btn-delete {
-    background-color: #dc3545;
-    color: white;
-  }
-  /* Asegurarse de que los botones estén en línea */
+  width: 50%;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+/* Estilos de botones */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+/* Estilos para botones de la pantalla principal */
+.table-actions button {
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.table-actions .btn-view {
+  background-color: #28a745;
+  color: white;
+}
+
+.table-actions .btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
+/* Asegurarse de que los botones estén en línea */
 .table-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .table-actions button {
-    padding: 10px 15px;
-    border-radius: 4px;
-    border: none;
-    cursor: pointer;
-    margin: 0 5px;
-  }
-  
-  .table-actions .btn-view {
-    background-color: #28a745;
-    color: white;
-  }
-  
-  .table-actions .btn-delete {
-    background-color: #dc3545;
-    color: white;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-actions button {
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.table-actions .btn-view {
+  background-color: #28a745;
+  color: white;
+}
+
+.table-actions .btn-delete {
+  background-color: #dc3545;
+  color: white;
+}
