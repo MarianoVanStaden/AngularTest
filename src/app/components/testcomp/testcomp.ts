@@ -9,9 +9,9 @@ import { HttpClient } from '@angular/common/http';
 export class Testcomp implements OnInit {
   url = 'https://api.restful-api.dev/objects';
   elements: any[] = [];
-  newElement: any = { name: '', data: { capacity: '', screenSize: '', generation: '', price: '' } };
+  newElement: any = { name: '', data: { capacity: '', color: '', screenSize: '', generation: '', price: '' } };
   selectedElement: any = null;
-  originalElement: any = null; // Guarda el elemento original para el rollback
+  originalElement: any = null;
   isPopupVisible = false;
 
   constructor(private http: HttpClient) {}
@@ -34,7 +34,6 @@ export class Testcomp implements OnInit {
   }
 
   saveElement() {
-    // Validar campos antes de guardar
     if (this.isNewElementValid()) {
       this.http.post<any>(this.url, this.newElement).subscribe(
         (response) => {
@@ -56,15 +55,19 @@ export class Testcomp implements OnInit {
   }
 
   viewElement(element: any) {
-    this.originalElement = JSON.parse(JSON.stringify(element)); // Clona el elemento
-    this.selectedElement = { ...element }; // Clona para la edición
+    // Clona el elemento original para el rollback
+    this.originalElement = JSON.parse(JSON.stringify(element));
+    this.selectedElement = element; // Usa directamente el elemento para data binding
     this.isPopupVisible = true;
   }
 
   closePopup() {
-    // Restaurar los cambios del elemento original al cerrar el modal
+    // Restaura el elemento original al cerrar el modal
     if (this.originalElement) {
-      Object.assign(this.selectedElement, this.originalElement);
+      const index = this.elements.findIndex(e => e.id === this.originalElement.id);
+      if (index !== -1) {
+        this.elements[index] = this.originalElement; // Restaura el valor original
+      }
     }
     this.isPopupVisible = false;
   }
@@ -74,16 +77,16 @@ export class Testcomp implements OnInit {
       (response) => {
         const index = this.elements.findIndex(e => e.id === this.selectedElement.id);
         if (index !== -1) {
-          this.elements[index] = response;
+          this.elements[index] = response; // Actualiza el elemento en la lista
         }
-        this.isPopupVisible = false;
+        this.isPopupVisible = false; // Cierra el modal después de actualizar
       },
       (error) => console.error('Error updating element', error)
     );
   }
 
   resetForm() {
-    this.newElement = { name: '', data: { capacity: '', screenSize: '', generation: '', price: '' } };
+    this.newElement = { name: '', data: { capacity: '', color: '', screenSize: '', generation: '', price: '' } };
   }
 
   isNewElementValid() {
@@ -91,4 +94,3 @@ export class Testcomp implements OnInit {
     return name && data.capacity && data.color && data.screenSize && data.generation && !isNaN(data.price) && data.price !== '';
   }
 }
-

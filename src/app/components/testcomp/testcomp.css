@@ -126,8 +126,81 @@ tfoot button:hover {
     background-color: rgba(0, 0, 0, 0.5); 
 }
 
-/* Estilos para el fondo del modal */
-body.modal-open {
-    overflow: hidden; /* Evita el desplazamiento de la página de fondo */
-}
-
+/* Estilos para centrar el modal y los botones */
+.modal-container {
+    width: 50%;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  
+  /* Estilos de botones */
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-primary {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+  }
+  
+  /* Estilos para botones de la pantalla principal */
+  .table-actions button {
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  .table-actions .btn-view {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .table-actions .btn-delete {
+    background-color: #dc3545;
+    color: white;
+  }
+  /* Asegurarse de que los botones estén en línea */
+.table-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .table-actions button {
+    padding: 10px 15px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  
+  .table-actions .btn-view {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .table-actions .btn-delete {
+    background-color: #dc3545;
+    color: white;
+  }
+  
