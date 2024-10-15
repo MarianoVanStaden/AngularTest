@@ -42,9 +42,6 @@ export class Testcomp implements OnInit {
           this.elements = response.map(element => ({ ...element, localId: undefined }));
           this.apiElements = new Set(response.map(element => element.id));
           this.nextLocalId = this.elements.length + 1;
-          
-          // Add mock data after loading API data
-          this.addMockData();
         } else {
           console.error('Response is not an array');
         }
@@ -53,19 +50,7 @@ export class Testcomp implements OnInit {
     );
   }
 
-  addMockData() {
-    const mockData: Element[] = [
-      { id: '', name: 'Mock iPhone 14', data: { capacity: '256GB', color: 'Midnight', screenSize: '6.1"', generation: '14th', price: 899 }, localId: this.nextLocalId++ },
-      { id: '', name: 'Mock Samsung Galaxy S23', data: { capacity: '512GB', color: 'Phantom Black', screenSize: '6.8"', generation: '23rd', price: 1199 }, localId: this.nextLocalId++ },
-      { id: '', name: 'Mock Google Pixel 7', data: { capacity: '128GB', color: 'Snow', screenSize: '6.3"', generation: '7th', price: 599 }, localId: this.nextLocalId++ },
-      { id: '', name: 'Mock OnePlus 10 Pro', data: { capacity: '256GB', color: 'Volcanic Black', screenSize: '6.7"', generation: '10th', price: 899 }, localId: this.nextLocalId++ },
-      { id: '', name: 'Mock Xiaomi 13', data: { capacity: '256GB', color: 'Ceramic White', screenSize: '6.36"', generation: '13th', price: 999 }, localId: this.nextLocalId++ }
-    ];
 
-    // Add mock data to elements array
-    this.elements = [...this.elements, ...mockData];
-    this.cdr.detectChanges();
-  }
   
   saveElement() {
     if (this.isNewElementValid()) {
