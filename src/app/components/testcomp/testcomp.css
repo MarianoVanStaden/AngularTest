@@ -201,3 +201,78 @@ button {
   background-color: #dc3545;
   color: white;
 }
+.table-actions .btn-delete {
+  background-color: #dc3545;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.table-actions .btn-delete-disabled {
+  background-color: #6c757d;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: none;
+  cursor: not-allowed;
+  margin: 0 5px;
+  opacity: 0.65; /* This makes the button appear "greyed out" */
+}
+
+.table-actions .btn-delete:hover {
+  background-color: #c82333;
+}
+
+.table-actions .btn-delete-disabled:hover {
+  background-color: #6c757d; /* Keeps the same color on hover */
+}
+.modal-buttons .btn-update {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.modal-buttons .btn-update-disabled {
+  background-color: #6c757d !important;
+  color: white !important;
+  padding: 10px 20px;
+  border-radius: 4px;
+  border: none;
+  cursor: not-allowed !important;
+  margin: 0 5px;
+  opacity: 0.65;
+}
+
+.modal-buttons .btn-update:hover:not(.btn-update-disabled) {
+  background-color: #0056b3;
+}
+
+/* Ensure the disabled button doesn't change on hover */
+.modal-buttons .btn-update-disabled:hover {
+  background-color: #6c757d !important;
+}
+.table-actions .btn-delete-disabled {
+  background-color: #6c757d !important;
+  color: white !important;
+  padding: 10px 15px;
+  border-radius: 4px;
+  border: none;
+  cursor: not-allowed !important;
+  margin: 0 5px;
+  opacity: 0.65;
+}
+
+.table-actions .btn-delete:hover:not(.btn-delete-disabled) {
+  background-color: #c82333;
+}
+
+.table-actions .btn-delete-disabled:hover {
+  background-color: #6c757d !important;
+}

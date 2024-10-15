@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -12,9 +12,10 @@ export class Testcomp implements OnInit {
   newElement: any = { name: '', data: { capacity: '', color: '', screenSize: '', generation: '', price: '' } };
   selectedElement: any = null;
   isPopupVisible = false;
-  deleteEnabled = false; // Controla si los botones de "Delete" están habilitados
+  deleteEnabled = false;
+  apiElements: Set<string> = new Set();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.loadElements();
@@ -25,7 +26,7 @@ export class Testcomp implements OnInit {
       (response) => {
         if (Array.isArray(response)) {
           this.elements = response;
-          this.disableDeleteButtons(); // Deshabilitar botones después de cargar los elementos
+          this.apiElements = new Set(response.map(element => element.id));
         } else {
           console.error('Response is not an array');
         }
@@ -33,14 +34,13 @@ export class Testcomp implements OnInit {
       (error) => console.error('Failed to load elements', error)
     );
   }
-
+  
   saveElement() {
     if (this.isNewElementValid()) {
       this.http.post<any>(this.url, this.newElement).subscribe(
         (response) => {
           this.elements.push(response);
           this.resetForm();
-          this.deleteEnabled = true; // Habilitar el botón de "Delete" después de agregar un elemento
         },
         (error) => console.error('Error adding element', error)
       );
@@ -50,34 +50,48 @@ export class Testcomp implements OnInit {
   }
 
   deleteElement(id: string) {
-    this.http.delete(`${this.url}/${id}`).subscribe(
-      () => this.elements = this.elements.filter(e => e.id !== id),
-      (error) => console.error('Error deleting element', error)
-    );
+    if (!this.apiElements.has(id)) {
+      this.http.delete(`${this.url}/${id}`).subscribe(
+        () => {
+          this.elements = this.elements.filter(e => e.id !== id);
+          this.cdr.detectChanges();
+        },
+        (error) => console.error('Error deleting element', error)
+      );
+    } else {
+      console.warn('Cannot delete API elements');
+    }
   }
 
   viewElement(element: any) {
-    this.selectedElement = { ...element }; 
+    this.selectedElement = JSON.parse(JSON.stringify(element));
     this.isPopupVisible = true;
   }
 
   closePopup() {
     this.isPopupVisible = false;
-    this.selectedElement = null; 
+    this.selectedElement = null;
   }
 
   updateElement() {
-    this.http.put<any>(`${this.url}/${this.selectedElement.id}`, this.selectedElement).subscribe(
-      (response) => {
-        const index = this.elements.findIndex(e => e.id === this.selectedElement.id);
-        if (index !== -1) {
-          this.elements[index] = response; // Actualiza el elemento en la lista
+    if (!this.apiElements.has(this.selectedElement.id)) {
+      this.http.put<any>(`${this.url}/${this.selectedElement.id}`, this.selectedElement).subscribe(
+        (response) => {
+          const index = this.elements.findIndex(e => e.id === this.selectedElement.id);
+          if (index !== -1) {
+            this.elements[index] = { ...this.elements[index], ...response };
+            this.cdr.detectChanges();
+          }
+          this.closePopup();
+        },
+        (error) => {
+          console.error('Error updating element', error);
         }
-        this.closePopup(); // Cierra el modal después de actualizar
-        this.deleteEnabled = true; // Habilitar botones de "Delete" después de la actualización
-      },
-      (error) => console.error('Error updating element', error)
-    );
+      );
+    } else {
+      console.warn('Cannot update API elements');
+      this.closePopup();
+    }
   }
 
   resetForm() {
@@ -90,7 +104,6 @@ export class Testcomp implements OnInit {
   }
 
   disableDeleteButtons() {
-    // Lógica que deshabilita los botones de "Delete" al inicio
     this.deleteEnabled = false;
   }
 }

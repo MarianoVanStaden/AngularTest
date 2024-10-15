@@ -23,7 +23,15 @@
       <td>{{ element.data?.price || '-' }}</td>
       <td class="table-actions">
         <button class="btn-view" (click)="viewElement(element)">View</button>
-        <button class="btn-delete" (click)="deleteElement(element.id)">Delete</button>
+        <button 
+          [ngClass]="{
+            'btn-delete': !apiElements.has(element.id),
+            'btn-delete-disabled': apiElements.has(element.id)
+          }"
+          [disabled]="apiElements.has(element.id)"
+          (click)="deleteElement(element.id)">
+          Delete
+        </button>
       </td>
     </tr>
     <tr>
@@ -75,7 +83,13 @@
     </tr>
   </table>
   <div class="modal-buttons">
-    <button  (click)="closePopup()">Close</button>
-    <button  (click)="updateElement()">Update</button>
+    <button (click)="closePopup()">Close</button>
+    <button 
+      class="btn-update"
+      [ngClass]="{'btn-update-disabled': apiElements.has(selectedElement?.id)}"
+      [disabled]="apiElements.has(selectedElement?.id)"
+      (click)="updateElement()">
+      Update
+    </button>
   </div>
 </div>
