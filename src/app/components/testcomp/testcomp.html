@@ -14,7 +14,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let element of elements">
-      <td>{{ element.id }}</td>
+      <td>{{ getDisplayId(element) }}</td>
       <td>{{ element.name }}</td>
       <td>{{ element.data?.capacity || '-' }}</td>
       <td>{{ element.data?.color || '-' }}</td>
@@ -24,11 +24,8 @@
       <td class="table-actions">
         <button class="btn-view" (click)="viewElement(element)">View</button>
         <button 
-          [ngClass]="{
-            'btn-delete': !apiElements.has(element.id),
-            'btn-delete-disabled': apiElements.has(element.id)
-          }"
-          [disabled]="apiElements.has(element.id)"
+          [ngClass]="{'btn-delete': !isApiElement(element.id), 'btn-delete-disabled': isApiElement(element.id)}"
+          [disabled]="isApiElement(element.id)"
           (click)="deleteElement(element.id)">
           Delete
         </button>
@@ -51,43 +48,43 @@
 
 <!-- Popup Modal -->
 <div *ngIf="isPopupVisible" id="popUp">
-  <h3>Detalles del Elemento</h3>
+  <h3>Element Details</h3>
   <table>
     <tr>
       <td>ID:</td>
-      <td>{{ selectedElement?.id }}</td>
+      <td>{{ getDisplayId(editingElement!) }}</td>
     </tr>
     <tr>
       <td>Name:</td>
-      <td><input [(ngModel)]="selectedElement.name"></td>
+      <td><input [(ngModel)]="editingElement!.name" [disabled]="isApiElement(editingElement!.id)"></td>
     </tr>
     <tr>
       <td>Capacity:</td>
-      <td><input [(ngModel)]="selectedElement.data.capacity"></td>
+      <td><input [(ngModel)]="editingElement!.data.capacity" [disabled]="isApiElement(editingElement!.id)"></td>
     </tr>
     <tr>
       <td>Color:</td>
-      <td><input [(ngModel)]="selectedElement.data.color"></td>
+      <td><input [(ngModel)]="editingElement!.data.color" [disabled]="isApiElement(editingElement!.id)"></td>
     </tr>
     <tr>
       <td>Screen Size:</td>
-      <td><input [(ngModel)]="selectedElement.data.screenSize"></td>
+      <td><input [(ngModel)]="editingElement!.data.screenSize" [disabled]="isApiElement(editingElement!.id)"></td>
     </tr>
     <tr>
       <td>Generation:</td>
-      <td><input [(ngModel)]="selectedElement.data.generation"></td>
+      <td><input [(ngModel)]="editingElement!.data.generation" [disabled]="isApiElement(editingElement!.id)"></td>
     </tr>
     <tr>
       <td>Price:</td>
-      <td><input type="number" [(ngModel)]="selectedElement.data.price"></td>
+      <td><input type="number" [(ngModel)]="editingElement!.data.price" [disabled]="isApiElement(editingElement!.id)"></td>
     </tr>
   </table>
   <div class="modal-buttons">
     <button (click)="closePopup()">Close</button>
     <button 
       class="btn-update"
-      [ngClass]="{'btn-update-disabled': apiElements.has(selectedElement?.id)}"
-      [disabled]="apiElements.has(selectedElement?.id)"
+      [ngClass]="{'btn-update-disabled': isApiElement(editingElement!.id)}"
+      [disabled]="isApiElement(editingElement!.id)"
       (click)="updateElement()">
       Update
     </button>
