@@ -1,16 +1,12 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+
 
 interface Element {
   id: string;
   name: string;
-  data: {
-    capacity: string;
-    color: string;
-    screenSize: string;
-    generation: string;
-    price: number;
-  };
+  data: any; // Cambiado para ser más flexible con la estructura de data.
   localId?: number;
 }
 
@@ -22,12 +18,13 @@ interface Element {
 export class Testcomp implements OnInit {
   url = 'https://api.restful-api.dev/objects';
   elements: Element[] = [];
-  newElement: Element = { id: '', name: '', data: { capacity: '', color: '', screenSize: '', generation: '', price: 0 } };
+  newElement: Element = { id: '', name: '', data: {} };
   selectedElement: Element | null = null;
   editingElement: Element | null = null;
   isPopupVisible = false;
   apiElements: Set<string> = new Set();
   nextLocalId = 1;
+  isLoading = false; 
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
@@ -50,10 +47,18 @@ export class Testcomp implements OnInit {
     );
   }
 
+  // Función para obtener los valores flexiblemente
+  getDataField(data: any, field: string) {
+    if (!data) return '-';
+    const keys = Object.keys(data);
+    const foundKey = keys.find(k => k.toLowerCase() === field.toLowerCase());
+    return foundKey ? data[foundKey] : '-';
+  }
 
-  
   saveElement() {
     if (this.isNewElementValid()) {
+      this.isLoading = true; // Activa el spinner
+  
       const newElementWithLocalId = { ...this.newElement, localId: this.nextLocalId };
       this.http.post<Element>(this.url, this.newElement).subscribe(
         (response) => {
@@ -61,14 +66,26 @@ export class Testcomp implements OnInit {
           this.elements.push(savedElement);
           this.nextLocalId++;
           this.resetForm();
+          this.isLoading = false; // Desactiva el spinner
           this.cdr.detectChanges();
+          
+          // Mostrar SweetAlert de éxito
+          Swal.fire('Success', 'Element added successfully!', 'success');
         },
-        (error) => console.error('Error adding element', error)
+        (error) => {
+          console.error('Error adding element', error);
+          this.isLoading = false; // Desactiva el spinner en caso de error
+          
+          // Mostrar SweetAlert de error
+          Swal.fire('Error', 'Failed to add element.', 'error');
+        }
       );
     } else {
-      alert('Please complete all required fields and ensure the price is a number.');
+      Swal.fire('Validation Error', 'Please complete all required fields and ensure the price is a number.', 'warning');
     }
   }
+  
+  
   deleteElement(id: string | number) {
     const elementIndex = this.elements.findIndex(e =>
       (typeof id === 'string' && e.id === id) ||
@@ -79,57 +96,76 @@ export class Testcomp implements OnInit {
   
     const element = this.elements[elementIndex];
   
-    if (this.apiElements.has(element.id)) {
-      // If the element has an API id, make a DELETE request to the API
-      this.http.delete(`${this.url}/${element.id}`).subscribe(
-        () => {
-          this.removeElementFromList(elementIndex); // Remove element from the list after API deletion
-        },
-        (error) => console.error('Error deleting element from API', error)
-      );
-    } else {
-      // If the element is a mock (no API id), remove it directly
-      this.removeElementFromList(elementIndex); 
-    }
-  }
-  
-  removeElementFromList(index: number) {
-    this.elements.splice(index, 1);
-    this.cdr.detectChanges(); // Notify Angular to update the view
+    // Confirmar la eliminación con SweetAlert
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (this.apiElements.has(element.id)) {
+          this.http.delete(`${this.url}/${element.id}`).subscribe(
+            () => {
+              this.removeElementFromList(elementIndex); 
+              Swal.fire('Deleted!', 'Your element has been deleted.', 'success');
+            },
+            (error) => console.error('Error deleting element from API', error)
+          );
+        } else {
+          this.removeElementFromList(elementIndex); 
+          Swal.fire('Deleted!', 'Your element has been deleted.', 'success');
+        }
+      }
+    });
   }
   
 
+  removeElementFromList(index: number) {
+    this.elements.splice(index, 1);
+    this.cdr.detectChanges(); 
+  }
+
   viewElement(element: Element) {
     this.selectedElement = element;
-    this.editingElement = JSON.parse(JSON.stringify(element)); // Deep copy
+    this.editingElement = JSON.parse(JSON.stringify(element));
     this.isPopupVisible = true;
+    this.cdr.detectChanges();
   }
+  
+  
 
   closePopup() {
     this.isPopupVisible = false;
     this.selectedElement = null;
-    this.editingElement = null;
+    this.editingElement = null; 
   }
+  
 
   updateElement() {
     if (!this.selectedElement || !this.editingElement) return;
-
+  
     if (this.apiElements.has(this.selectedElement.id)) {
-      // Update API element
       this.http.put<Element>(`${this.url}/${this.selectedElement.id}`, this.editingElement).subscribe(
         (response) => {
           this.updateElementInList(response);
+          Swal.fire('Success', 'Element updated successfully!', 'success');
         },
         (error) => {
           console.error('Error updating element', error);
+          Swal.fire('Error', 'Failed to update element.', 'error');
         }
       );
     } else {
-      // Update mock data
       this.updateElementInList(this.editingElement);
+      Swal.fire('Success', 'Element updated successfully!', 'success');
     }
     this.closePopup();
   }
+  
 
   updateElementInList(updatedElement: Element) {
     const index = this.elements.findIndex(e => 
@@ -143,12 +179,12 @@ export class Testcomp implements OnInit {
   }
 
   resetForm() {
-    this.newElement = { id: '', name: '', data: { capacity: '', color: '', screenSize: '', generation: '', price: 0 } };
+    this.newElement = { id: '', name: '', data: {} };
   }
 
   isNewElementValid() {
     const { name, data } = this.newElement;
-    return name && data.capacity && data.color && data.screenSize && data.generation && !isNaN(data.price) && data.price !== 0;
+    return name && !isNaN(data.price) && data.price !== 0;
   }
 
   isApiElement(id: string | number): boolean {

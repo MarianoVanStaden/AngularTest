@@ -16,11 +16,11 @@
     <tr *ngFor="let element of elements">
       <td>{{ getDisplayId(element) }}</td>
       <td>{{ element.name }}</td>
-      <td>{{ element.data?.capacity || '-' }}</td>
-      <td>{{ element.data?.color || '-' }}</td>
-      <td>{{ element.data?.screenSize || '-' }}</td>
-      <td>{{ element.data?.generation || '-' }}</td>
-      <td>{{ element.data?.price || '-' }}</td>
+      <td>{{ getDataField(element.data, 'capacity') }}</td>
+      <td>{{ getDataField(element.data, 'color') }}</td>
+      <td>{{ getDataField(element.data, 'Screen size') }}</td>
+      <td>{{ getDataField(element.data, 'generation') }}</td>
+      <td>{{ getDataField(element.data, 'price') }}</td>
       <td class="table-actions">
         <button class="btn-view" (click)="viewElement(element)">View</button>
         <button 
@@ -40,11 +40,19 @@
       <td><input [(ngModel)]="newElement.data.generation" placeholder="Generation"></td>
       <td><input type="number" [(ngModel)]="newElement.data.price" placeholder="Price"></td>
       <td>
-        <button class="btn-primary" (click)="saveElement()">Add</button>
+      <button 
+        class="btn-primary" 
+        (click)="saveElement()" 
+        [disabled]="isLoading">
+        <span *ngIf="!isLoading">Add</span>
+        <span *ngIf="isLoading" class="spinner"></span>
+      </button>
       </td>
+
     </tr>
   </tbody>
 </table>
+
 
 <!-- Popup Modal -->
 <div *ngIf="isPopupVisible" id="popUp">
