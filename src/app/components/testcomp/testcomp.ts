@@ -58,9 +58,9 @@ export class Testcomp implements OnInit {
   saveElement() {
     if (this.isNewElementValid()) {
       this.isLoading = true; // Activa el spinner
-  
+    
       const newElementWithLocalId = { ...this.newElement, localId: this.nextLocalId };
-      this.http.post<Element>(this.url, this.newElement).subscribe(
+      this.http.post<Element>(this.url, newElementWithLocalId).subscribe(
         (response) => {
           const savedElement = { ...response, localId: this.nextLocalId };
           this.elements.push(savedElement);
@@ -81,9 +81,10 @@ export class Testcomp implements OnInit {
         }
       );
     } else {
-      Swal.fire('Validation Error', 'Please complete all required fields and ensure the price is a number.', 'warning');
+      Swal.fire('Validation Error', 'Please complete all required fields and ensure the price is a positive number.', 'warning');
     }
   }
+  
   
   
   deleteElement(id: string | number) {
@@ -184,8 +185,10 @@ export class Testcomp implements OnInit {
 
   isNewElementValid() {
     const { name, data } = this.newElement;
-    return name && !isNaN(data.price) && data.price !== 0;
+    const price = Number(data.price); 
+    return name && !isNaN(price) && price > 0; 
   }
+  
 
   isApiElement(id: string | number): boolean {
     return typeof id === 'string' && this.apiElements.has(id);
