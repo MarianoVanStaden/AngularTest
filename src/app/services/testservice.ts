@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class TestserService {
+export class TestService {
   private url = "https://api.restful-api.dev/objects"
   
   constructor(private http: HttpClient) { }
